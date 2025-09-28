@@ -4,18 +4,18 @@ const { connectDB } = require('./config/database');
 const routes = require('./routes');
 /*const errorHandler = require('./middleware/errorHandler');*/
 const cors = require('cors');
-const i18n = require('i18n');
+/*const i18n = require('i18n');*/
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-i18n.configure({
+/*i18n.configure({
     locales: ['en', 'hi'], // Add more locales if needed
     directory: path.join(__dirname, 'locales'),
     defaultLocale: 'en',
     queryParameter: 'lang', // allow ?lang=hi in URL
     objectNotation: true
 });
-app.use(i18n.init);
+app.use(i18n.init);*/
 
 // Connect to MongoDB
 connectDB();
