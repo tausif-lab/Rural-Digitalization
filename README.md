@@ -19,7 +19,7 @@ This solution integrates **Smart Education, Digital Records,s,** to enhance stud
 
 ---
 
-💡 Our Solution
+ Our Solution
 We propose “NABHA DigiShiksha – Smart Rural Education Hub”**, a web + mobile application with:  
 
 - AI-Powered Analytics → Real-time attendance, performance, and activity insights.  
@@ -30,12 +30,12 @@ We propose “NABHA DigiShiksha – Smart Rural Education Hub”**, a web + mobi
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend:** React.js, Tailwind CSS  
-- **Backend:** Node.js, Express.js  
-- **Database:** MongoDB / PostgreSQL  
-- **Cloud:**  AWS+kubernetes   
-- **Extras:**  
+##  Tech Stack
+- Frontend: React.js, Tailwind CSS  
+- Backend: Node.js, Express.js  
+- Database: MongoDB / PostgreSQL  
+- Cloud: AWS+kubernetes   
+- Extras:
   - Multer (File Management)  
   - Chart.js / Recharts (Visualization)  
   - i18n (Localization – Multilingual Support)  
@@ -55,4 +55,4 @@ We propose “NABHA DigiShiksha – Smart Rural Education Hub”**, a web + mobi
 ---
 
 
-## 📂 Project Structure
+##  Project Structure
