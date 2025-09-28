@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Online Exam System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(165deg, #39a9d9, #526bd9, #9fa6c1);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .register-box {
+      width: 100%;
+      max-width: 480px;
+      padding: 35px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      color: #fff;
+    }
+
+    .register-box h3 {
+      color: #e0f0ff;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #d2e9ff;
+    }
+
+    .form-control, .form-select {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      border-radius: 12px;
+    }
+
+    .form-control::placeholder {
+      color: #cbd6e2;
+    }
+
+    .form-control:focus, .form-select:focus {
+      background: rgba(255, 255, 255, 0.25);
+      outline: none;
+      border-color: #4da8da;
+      box-shadow: 0 0 0 0.25rem rgba(77, 168, 218, 0.3);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4da8da, #0077b6);
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #0077b6, #023e8a);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 119, 182, 0.4);
+    }
+
+    .alert {
+      border-radius: 12px;
+    }
+
+    a {
+      color: #90e0ef;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #48cae4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="register-box">
+    <h3 class="text-center mb-4">Registration</h3>
+    <form id="registrationForm">
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Teacher ID</label>
+        <input type="number" id="teacherId" class="form-control" placeholder="Enter your Teacher-Id" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Enter the password" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Confirm Password</label>
+        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+      </div>
+      
+      
+      
+      <button type="submit" id="submitBtn" class="btn btn-primary w-100 mb-3">
+        Register
+      </button>
+      <p class="text-center">Already registered? <a href="/login">Login</a></p>
+    </form>
+    <div id="message"></div>
+  </div>
+
+<script>
+    // Registration form submission
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const fullName = document.getElementById('fullName').value;
+      const teacherId = document.getElementById('teacherId').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const messageDiv = document.getElementById('message');
+
+      messageDiv.innerHTML = '';
+
+      // Validationt
+      if (!fullName || !teacherId || !password || !confirmPassword) {
+        showMessage('Please fill in all fields', 'danger');
+        return;
+      }
+
+      try {
+        const requestBody = { 
+          fullName, 
+          teacherId,
+          password,
+          confirmPassword
+        };
+        
+        // Fixed the API endpoint path
+        const response = await fetch('/api/auth/registerT', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showMessage('Registration successful! Redirecting to Login For teachers...', 'success');
+          document.getElementById('registrationForm').reset();
+          
+          // Store the token in localStorage
+          if (data.token) {
+            localStorage.setItem('token', data.token);
+          }
+          
+          setTimeout(() => {
+            window.location.href = '/loginT';
+          }, 2000);
+        } else {
+          showMessage(data.message || 'Registration failed', 'danger');
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        showMessage('Network error. Please try again.', 'danger');
+      }
+    });
+
+    function showMessage(message, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+    }
+</script>
+  
+</body>
+</html>

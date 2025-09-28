@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Dashboard - Nabha Digital Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Background Pattern */
+        .pattern-bg {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.03) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.03) 0%, transparent 25%);
+            background-size: 100px 100px;
+            animation: pattern-move 30s linear infinite;
+        }
+
+        @keyframes pattern-move {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 100px 100px, -100px -100px; }
+        }
+
+        /* Glass Navigation */
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: hero-float 8s ease-in-out infinite;
+        }
+
+        @keyframes hero-float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10px, -10px) scale(1.02); }
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Icon Containers */
+        .icon-container {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+        }
+
+        .icon-container.blue {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .icon-container.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .icon-container.yellow {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .icon-container.orange {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+
+        .icon-container.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .icon-container.pink {
+            background: linear-gradient(135deg, #ec4899, #db2777);
+        }
+
+        /* Floating Animation */
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .float.delay-1 { animation-delay: 1s; }
+        .float.delay-2 { animation-delay: 2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Star Rating */
+        .star {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .star.empty {
+            color: #e5e7eb;
+        }
+
+        /* Skill Progress Bars */
+        .skill-progress {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress-fill {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            height: 8px;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Recommendations styling */
+        .recommendations {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+            border-left: 4px solid #f59e0b;
+        }
+
+        /* Pulse animation for loading */
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 3px;
+        }
+
+        /* Form styling */
+        .form-input {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(99, 102, 241, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body class="pattern-bg">
+    <!-- Navigation -->
+    <nav class="nav-glass sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-white-500 to-white-600 rounded-xl flex items-center justify-center">
+                    </div>
+                    <div>
+                        <span class="text-xl font-semibold text-gray-800">Nabha Digital Learning</span>
+                        <div class="text-sm text-gray-500">Parent Dashboard</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600 hidden sm:block">
+                        Monitor your child's progress
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section text-white py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-4">Parent Dashboard</h1>
+            <p class="text-xl lg:text-2xl opacity-90">Monitor your child's academic progress and performance</p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Search Section -->
+        <div class="glass-card rounded-3xl p-8 mb-8">
+            <h2 class="text-2xl font-bold gradient-text mb-6 text-center">Student Performance Report</h2>
+            <form class="flex flex-col md:flex-row justify-center items-end gap-6" id="searchForm">
+                <div class="flex-1 max-w-xs">
+                    <label for="studentName" class="block text-sm font-semibold text-gray-700 mb-2">Student Name</label>
+                    <input type="text" id="studentName" class="form-input w-full px-4 py-3 rounded-xl outline-none" placeholder="Enter student name" required>
+                </div>
+                
+                <div class="flex-1 max-w-xs">
+                    <label for="studentClass" class="block text-sm font-semibold text-gray-700 mb-2">Class</label>
+                    <select id="studentClass" class="form-input w-full px-4 py-3 rounded-xl outline-none" required>
+                        <option value="">Select Class</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary text-white px-8 py-3 rounded-xl font-semibold">
+                    <i class="fas fa-search mr-2"></i>View Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Report Section -->
+        <div class="hidden" id="reportSection">
+            <!-- Student Info Banner -->
+            <div class="glass-card rounded-3xl p-8 mb-8 text-center">
+                <div class="icon-container w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 float">
+                    <i class="fas fa-user-graduate text-white text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold gradient-text" id="displayStudentName">Student Name</h2>
+                <p class="text-xl text-gray-600 mt-2" id="displayStudentClass">Class</p>
+            </div>
+
+            <!-- Report Content -->
+            <div class="glass-card rounded-3xl p-8" id="reportCard">
+                <!-- Report content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for Sahil, Class 7
+        const sampleReports = {
+            'sahil_7': {
+                studentName: 'Sahil',
+                studentClass: 'Class 7',
+                subject: 'Science - Photosynthesis',
+                lastAssessment: 'December 2024',
+                overallScore: 85,
+                performance: {
+                    conceptUnderstanding: 88,
+                    practicalApplication: 82,
+                    problemSolving: 80,
+                    participation: 90
+                },
+                skills: [
+                    { name: 'Understanding of Light Energy', level: 4 },
+                    { name: 'Knowledge of Chlorophyll Function', level: 5 },
+                    { name: 'Chemical Equation Comprehension', level: 3 },
+                    { name: 'Plant Structure Identification', level: 4 },
+                    { name: 'Factors Affecting Photosynthesis', level: 4 },
+                    { name: 'Experimental Observation', level: 5 }
+                ],
+                strengths: [
+                    'Excellent understanding of chlorophyll and its role in photosynthesis',
+                    'Strong ability to identify plant structures involved in the process',
+                    'Good grasp of environmental factors affecting photosynthesis',
+                    'Active participation in class discussions and experiments'
+                ],
+                improvements: [
+                    'Practice writing and balancing the photosynthesis equation',
+                    'Work on explaining the light and dark reactions in detail',
+                    'Focus on understanding the connection between respiration and photosynthesis'
+                ],
+                recommendations: [
+                    'Conduct simple experiments at home using plants and different light conditions',
+                    'Create a visual diagram showing the complete photosynthesis process',
+                    'Read additional resources about advanced photosynthesis concepts',
+                    'Practice solving problems related to factors affecting photosynthesis rate'
+                ]
+            }
+        };
+
+        function generateStars(level, maxLevel = 5) {
+            let stars = '';
+            for (let i = 1; i <= maxLevel; i++) {
+                stars += `<span class="star ${i <= level ? '' : 'empty'}">★</span>`;
+            }
+            return stars;
+        }
+
+        function displayReport(reportData) {
+            const reportCard = document.getElementById('reportCard');
+            
+            reportCard.innerHTML = `
+                <div class="text-center mb-8 pb-6 border-b border-gray-200">
+                    <h3 class="text-2xl font-bold gradient-text mb-2">Performance Report</h3>
+                    <div class="text-lg font-semibold text-gray-700 mb-2">${reportData.subject}</div>
+                    <p class="text-gray-500">Last Assessment: ${reportData.lastAssessment}</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card p-6 rounded-2xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-600 mb-2">Overall Score</h4>
+                                <p class="text-3xl font-bold text-blue-600">${reportData.overallScore}%</p>
+                                <p class="text-sm text-green-600 mt-1">Above Average</p>
+                            </div>
+                            <div class="icon-container blue w-14 h-14 rounded-2xl flex items-center justify-center float">
+                                <i class="fas fa-chart-line text-white text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card p-6 rounded-2xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-600 mb-2">Concept Understanding</h4>
+                                <p class="text-3xl font-bold text-green-600">${reportData.performance.conceptUnderstanding}%</p>
+                                <p class="text-sm text-blue-600 mt-1">Strong Grasp</p>
+                            </div>
+                            <div class="icon-container green w-14 h-14 rounded-2xl flex items-center justify-center float delay-1">
+                                <i class="fas fa-brain text-white text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card p-6 rounded-2xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-600 mb-2">Practical Application</h4>
+                                <p class="text-3xl font-bold text-yellow-600">${reportData.performance.practicalApplication}%</p>
+                                <p class="text-sm text-purple-600 mt-1">Good Progress</p>
+                            </div>
+                            <div class="icon-container yellow w-14 h-14 rounded-2xl flex items-center justify-center float delay-2">
+                                <i class="fas fa-tools text-white text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card p-6 rounded-2xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-600 mb-2">Class Participation</h4>
+                                <p class="text-3xl font-bold text-purple-600">${reportData.performance.participation}%</p>
+                                <p class="text-sm text-green-600 mt-1">Excellent</p>
+                            </div>
+                            <div class="icon-container purple w-14 h-14 rounded-2xl flex items-center justify-center float">
+                                <i class="fas fa-hand-paper text-white text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h4 class="text-xl font-bold gradient-text mb-6">
+                        <i class="fas fa-chart-bar mr-2"></i>Skill Assessment
+                    </h4>
+                    <div class="space-y-4">
+                        ${reportData.skills.map(skill => `
+                            <div class="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm">
+                                <span class="font-medium text-gray-700">${skill.name}</span>
+                                <div class="flex items-center space-x-2">
+                                    <div class="skill-level">${generateStars(skill.level)}</div>
+                                    <span class="text-sm text-gray-500">${skill.level}/5</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h4 class="text-xl font-bold gradient-text mb-4">
+                            <i class="fas fa-trophy mr-2"></i>Strengths
+                        </h4>
+                        <ul class="space-y-3">
+                            ${reportData.strengths.map(strength => `
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span class="text-gray-700">${strength}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6">
+                        <h4 class="text-xl font-bold gradient-text mb-4">
+                            <i class="fas fa-target mr-2"></i>Areas for Improvement
+                        </h4>
+                        <ul class="space-y-3">
+                            ${reportData.improvements.map(improvement => `
+                                <li class="flex items-start space-x-3">
+                                    <i class="fas fa-arrow-up text-blue-500 mt-1"></i>
+                                    <span class="text-gray-700">${improvement}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="recommendations glass-card rounded-2xl p-6">
+                    <h4 class="text-xl font-bold text-amber-700 mb-4">
+                        <i class="fas fa-lightbulb mr-2"></i>Teacher Recommendations
+                    </h4>
+                    <ul class="space-y-3">
+                        ${reportData.recommendations.map(rec => `
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-book text-amber-600 mt-1"></i>
+                                <span class="text-amber-800">${rec}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value.trim().toLowerCase();
+            const studentClass = document.getElementById('studentClass').value;
+            
+            if (!studentName || !studentClass) {
+                alert('Please enter both student name and class');
+                return;
+            }
+
+            // Create a key for lookup
+            const lookupKey = `${studentName}_${studentClass}`;
+            
+            // Update student info display
+            document.getElementById('displayStudentName').textContent = studentName.charAt(0).toUpperCase() + studentName.slice(1);
+            document.getElementById('displayStudentClass').textContent = `Class ${studentClass}`;
+            
+            // Check if report exists
+            if (sampleReports[lookupKey]) {
+                displayReport(sampleReports[lookupKey]);
+            } else {
+                // Show no report message
+                document.getElementById('reportCard').innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="icon-container w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-file-alt text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold gradient-text mb-4">No Report Found</h3>
+                        <p class="text-gray-600 mb-4">No performance report is available for <strong>${studentName.charAt(0).toUpperCase() + studentName.slice(1)}</strong> in <strong>Class ${studentClass}</strong>.</p>
+                        <p class="text-gray-500 mb-6">Please contact the school administration or check back later.</p>
+                        <div class="glass-card inline-block px-6 py-3 rounded-xl">
+                            <p class="text-sm text-gray-500">
+                                <i class="fas fa-info-circle mr-2"></i>Sample data available for: Sahil - Class 7
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Show the report section
+            document.getElementById('reportSection').classList.remove('hidden');
+            
+            // Scroll to report section
+            document.getElementById('reportSection').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+
+        // Auto-fill for demo purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('studentName').value = 'sahil';
+            document.getElementById('studentClass').value = '7';
+        });
+    </script>
+</body>
+</html>

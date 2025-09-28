@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Nabha Digital Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- PWA Manifest (Assuming it points to the root) -->
+    <link rel="manifest" href="/manifest.json"> 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Background Pattern */
+        .pattern-bg {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.03) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.03) 0%, transparent 25%);
+            background-size: 100px 100px;
+            animation: pattern-move 30s linear infinite;
+        }
+
+        @keyframes pattern-move {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 100px 100px, -100px -100px; }
+        }
+
+        /* Glass Navigation */
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Sidebar *
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }*/
+.sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(99, 102, 241, 0.1);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 60; /* Higher than header */
+    overflow-y: auto;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Sidebar overlay */
+#sidebarOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    backdrop-filter: blur(2px);
+}
+
+/* Fix main content margin for desktop */
+@media (min-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar {
+        position: static;
+        transform: translateX(0);
+        height: auto;
+        width: 280px;
+        box-shadow: none;
+        border-right: 1px solid rgba(99, 102, 241, 0.1);
+    }
+}
+
+/* Match admin dashboard card styling */
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+    transition: left 0.5s;
+}
+
+.stat-card:hover::before {
+    left: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
+}
+
+/* Action cards matching admin style */
+.action-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.action-card:hover::before {
+    opacity: 1;
+}
+
+.action-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Icon containers matching admin style */
+.icon-container {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    transition: all 0.3s ease;
+}
+
+.icon-container.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.icon-container.green { background: linear-gradient(135deg, #10b981, #059669); }
+.icon-container.yellow { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.icon-container.cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.icon-container.purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.icon-container.pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+.icon-container.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+
+/* Mobile sidebar header */
+.sidebar .mobile-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+/* Fix language dropdown */
+.lang-dropdown-desktop {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
+    width: 140px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.group:hover .lang-dropdown-desktop {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+        /* Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* Quick Action Cards */
+        .action-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.3);
+        }
+
+        .action-card.green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9));
+        }
+
+        .action-card.green:hover {
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3);
+        }
+
+        .action-card.purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.9));
+        }
+
+        .action-card.purple:hover {
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
+        }
+
+        .action-card.orange {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(234, 88, 12, 0.9));
+        }
+
+        .action-card.orange:hover {
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Progress Circles */
+        .progress-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+        
+        .progress-75 {
+            stroke-dashoffset: 71;
+        }
+        
+        .progress-60 {
+            stroke-dashoffset: 113;
+        }
+        
+        .progress-40 {
+            stroke-dashoffset: 170;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        /* Floating Animation */
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .float.delay-1 { animation-delay: 1s; }
+        .float.delay-2 { animation-delay: 2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Icon Pulse */
+        .icon-pulse {
+            animation: icon-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Status Indicators */
+        .status-online {
+            background: linear-gradient(45deg, #10b981, #059669);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+        }
+
+        .status-offline {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Activity Items */
+        .activity-item {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(4px);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Nav Links */
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        /* Language Dropdown for Desktop *
+        .lang-dropdown-desktop {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 8px;
+            width: 140px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            display: none;
+        }*
+        .group:hover .lang-dropdown-desktop {
+            display: block;
+        }*/
+        /* Fix the language dropdown visibility issue */
+.lang-dropdown-desktop {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
+    width: 140px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Increased z-index */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.group:hover .lang-dropdown-desktop {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Ensure hover area doesn't break */
+.group {
+    position: relative;
+}
+
+.group::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 12px; /* Bridge the gap */
+}
+
+/* Enhanced card hover effects */
+.action-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.action-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+/* Add this to your existing styles */
+.hero-section {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9));
+    border-radius: 24px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.1"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+    background-size: cover;
+}
+
+.action-card:hover::after {
+    width: 300px;
+    height: 300px;
+}
+        .lang-option {
+            transition: background-color 0.2s;
+        }
+        .lang-option:hover {
+            background-color: #f1f5ff; /* Indigo-50 */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="pattern-bg">
+    <!-- Header --
+    <header class="nav-glass sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Left: Menu + Logo --
+                <div class="flex items-center space-x-4">
+                    <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-indigo-50 transition-all">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <span class="text-white font-bold">N</span>
+                        </div>
+                        <span class="font-semibold text-xl text-gray-800 hidden sm:block" data-lang="logo_text">Nabha Digital Learning</span>
+                    </div>
+                </div>
+                
+                <!-- Right: Student Info + Status + Language + Logout --
+                <div class="flex items-center space-x-4">
+                    <div class="hidden sm:flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-semibold">RS</span>
+                        </div>
+                        <div>
+                            <span class="text-sm font-medium text-gray-800" data-lang="user_name">Sahil</span>
+                            <div class="text-xs text-gray-500" data-lang="user_class">Class 7</div>
+                        </div>
+                    </div>
+                    <div id="statusIndicator" class="w-3 h-3 rounded-full status-online"></div>
+
+                    <!-- Language Switcher (Desktop) --
+                    <div class="relative group hidden md:block">
+                        <button class="btn-primary px-3 py-2 rounded-lg text-sm font-medium text-white flex items-center space-x-1">
+                            <span id="current-lang-display-desktop">EN</span>
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="lang-dropdown-desktop" class="lang-dropdown-desktop">
+                            <button data-lang-code="en" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700">English</button>
+                            <button data-lang-code="hi" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700">हिन्दी</button>
+                            <button data-lang-code="pa" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700">ਪੰਜਾਬੀ</button>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary px-4 py-2 rounded-lg text-sm font-medium text-white" onclick="logout()">
+                        <span data-lang="btn_logout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>-->
+    <header class="nav-glass sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-white-500 to-white-600 rounded-xl flex items-center justify-center">
+                    <span class="text-white font-bold"></span>
+                </div>
+                <div>
+                    <span class="text-xl font-semibold text-gray-800">Nabha Digital Learning</span>
+                    <div class="text-sm text-gray-500">Student Dashboard</div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Student Info Display -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <div id="student-avatar" class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        <span class="text-white font-semibold" id="student-initials">S</span>
+                    </div>
+                    <div>
+                        <span class="text-sm font-medium gradient-text" id="student-name-display">Sahil</span>
+                        <div class="text-xs text-gray-500" id="student-class-display">class-7</div>
+                    </div>
+                </div>
+                <div id="statusIndicator" class="w-3 h-3 rounded-full status-online"></div>
+
+                <!-- Language Switcher (Desktop) -->
+                <div class="relative group hidden md:block">
+                    <button class="btn-primary px-3 py-2 rounded-lg text-sm font-medium text-white flex items-center space-x-1">
+                        <span id="current-lang-display-desktop">EN</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="lang-dropdown-desktop">
+                        <button data-lang-code="en" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700">English</button>
+                        <button data-lang-code="hi" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700">हिन्दी</button>
+                        <button data-lang-code="pa" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700">ਪੰਜਾਬੀ</button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-indigo-50 transition-all">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                
+                <button class="btn-primary text-white px-4 py-2 rounded-lg font-medium" onclick="logout()">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span data-lang="btn_logout">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+    <div class="flex min-h-screen">
+        <!-- Sidebar --
+        <aside id="sidebar" class="sidebar fixed md:static inset-y-0 left-0 z-40 w-64">
+            <div class="p-6">
+                <!-- Mobile header in sidebar --
+                <div class="md:hidden flex items-center justify-between mb-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">RS</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800" data-lang="user_name">Sahil</p>
+                            <p class="text-xs text-gray-500" data-lang="user_class">Class 7</p>
+                        </div>
+                    </div>
+                    <button id="closeSidebar" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <nav class="space-y-3">
+                    <a href="#" class="nav-link active flex items-center space-x-3 px-4 py-3 rounded-xl font-medium">
+                        <span class="text-lg">📚</span>
+                        <span data-lang="nav_dashboard">My Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all">
+                        <span class="text-lg">👤</span>
+                        <span data-lang="nav_profile">My Profile</span>
+                    </a>
+                    <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all">
+                        <span class="text-lg">📖</span>
+                        <span data-lang="nav_courses">My Courses</span>
+                    </a>
+                    <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all" onclick="leaderboard()">
+                        <span class="text-lg">📊</span>
+                        <span data-lang="nav_leaderboard">Leaderboard</span>
+                    </a>
+                    
+                    <div class="pt-6">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-4" data-lang="settings_title">Settings</p>
+                        <div class="glass-card p-4 rounded-xl mb-3">
+                            <label class="text-sm font-medium text-gray-700 mb-2 block" data-lang="settings_lang_label">🌍 Language</label>
+                            <select id="lang-selector-sidebar" class="w-full p-2 border border-gray-300 rounded-lg text-sm bg-white text-gray-700">
+                                <option value="en">English</option>
+                                <option value="hi">हिन्दी (Hindi)</option>
+                                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                            </select>
+                        </div>
+                        <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all">
+                            <span class="text-lg">⚙️</span>
+                            <span data-lang="nav_settings">Settings</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </aside>-->
+ <aside id="sidebar" class="sidebar">
+    <div class="mobile-header md:hidden">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-3">
+                <div id="sidebar-student-avatar" class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold" id="sidebar-student-initials">S</span>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800" id="sidebar-student-name">Student</p>
+                    <p class="text-xs text-gray-500" id="sidebar-student-class">Class</p>
+                </div>
+            </div>
+            <button id="closeSidebar" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <div class="p-6">
+        <nav class="space-y-3">
+            <a href="#" class="nav-link active flex items-center space-x-3 px-4 py-3 rounded-xl font-medium">
+                <span class="text-lg">📚</span>
+                <span data-lang="nav_dashboard">My Dashboard</span>
+            </a>
+            <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all">
+                <span class="text-lg">👤</span>
+                <span data-lang="nav_profile">My Profile</span>
+            </a>
+            <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all">
+                <span class="text-lg">📖</span>
+                <span data-lang="nav_courses">My Courses</span>
+            </a>
+            <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all" onclick="leaderboard()">
+                <span class="text-lg">📊</span>
+                <span data-lang="nav_leaderboard">Leaderboard</span>
+            </a>
+            
+            <div class="pt-6">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-4" data-lang="settings_title">Settings</p>
+                <div class="glass-card p-4 rounded-xl mb-3">
+                    <label class="text-sm font-medium text-gray-700 mb-2 block" data-lang="settings_lang_label">🌐 Language</label>
+                    <select id="lang-selector-sidebar" class="w-full p-2 border border-gray-300 rounded-lg text-sm bg-white text-gray-700">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी (Hindi)</option>
+                        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                    </select>
+                </div>
+                <a href="#" class="nav-link flex items-center space-x-3 px-4 py-3 text-gray-600 rounded-xl transition-all">
+                    <span class="text-lg">⚙️</span>
+                    <span data-lang="nav_settings">Settings</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+</aside>       
+        <!-- Sidebar Overlay -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-30 z-30 hidden md:hidden"></div>
+
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 md:p-8">
+            <!-- Welcome Banner -->
+          <!--  <div class="welcome-banner rounded-3xl p-8 mb-8 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-3 text-gray-800">
+                    Hello <span class="gradient-text" data-lang="welcome_user">sahil</span>! 👋
+                </h1>
+                <p class="text-xl text-gray-600 mb-4" data-lang="welcome_subtitle">Ready to learn something amazing today?</p>
+                <div class="inline-block glass-card px-6 py-3 rounded-full">
+                    <span class="text-sm font-medium gradient-text" data-lang="welcome_status">🎯 Keep up the great work!</span>
+                </div>
+            </div>
+            <div class="hero-section text-white py-20">
+    <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+        <h1 class="text-4xl lg:text-6xl font-bold mb-4" id="dynamic-welcome-title">Student Dashboard</h1>
+        <p class="text-xl lg:text-2xl opacity-90" id="dynamic-welcome-subtitle">Ready to learn something amazing today?</p>
+        <div class="mt-8">
+            <div class="inline-flex items-center space-x-2 bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="text-sm font-medium">Learning mode active</span>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="hero-section rounded-3xl p-8 mb-8">
+    <div class="text-center relative z-10">
+        <h1 class="text-3xl md:text-4xl font-bold mb-3 text-white" id="dynamic-welcome-title">
+            Hello <span id="welcome-student-name">Sahil</span>! 👋
+        </h1>
+        <p class="text-xl text-white opacity-90 mb-4" id="dynamic-welcome-subtitle">
+            Ready to learn something amazing today?
+        </p>
+        <div class="inline-block bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
+            <span class="text-sm font-medium text-white" id="welcome-status">🎯 Keep up the great work!</span>
+        </div>
+    </div>
+</div>
+
+
+            <!-- Quick Access Cards --
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+                <div class="action-card p-4 md:p-6 rounded-2xl text-center">
+                    <div class="text-3xl md:text-4xl mb-3 icon-pulse">📖</div>
+                    <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_quiz_polish_title">Take quiz To Polish Your Knowledge</h3>
+                    <p class="text-xs opacity-90" data-lang="action_quiz_polish_desc">And Make Your Position In the Leader Board</p>
+                </div>
+                
+                <div class="action-card green p-4 md:p-6 rounded-2xl text-center">
+                    <div class="text-3xl md:text-4xl mb-3 float">🚀</div>
+                    <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_module_title">Start Learning With Digital Module</h3>
+                    <p class="text-xs opacity-90" data-lang="action_module_desc">Digital Literacy Module</p>
+                </div>
+                
+                <div class="action-card purple p-4 md:p-6 rounded-2xl text-center" onclick="viewQuiz()">
+                    <div class="text-3xl md:text-4xl mb-3 float delay-1">🎯</div>
+                    <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_take_quiz_title">Take Quiz</h3>
+                    <p class="text-xs opacity-90" data-lang="action_take_quiz_desc">5 available Course related Quiz</p>
+                </div>
+                
+                <div class="action-card orange p-4 md:p-6 rounded-2xl text-center" onclick=" viewAnalysis()">
+                    <div class="text-3xl md:text-4xl mb-3 float delay-2">📊</div>
+                    <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_view_report_title">View Report</h3>
+                    <p class="text-xs opacity-90" data-lang="action_view_report_desc">Review all the quiz result with analysis</p>
+                </div>
+            </div>-->
+           <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+    <div class="action-card p-4 md:p-6 rounded-2xl text-center"onclick="defaullevel()">
+        <div class="text-3xl md:text-4xl mb-3 icon-pulse">📖</div>
+        <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_quiz_polish_title">Take quiz To Polish Your Knowledge</h3>
+        <p class="text-xs opacity-90" data-lang="action_quiz_polish_desc">And Make Your Position In the Leader Board</p>
+    </div>
+    
+    <div class="action-card green p-4 md:p-6 rounded-2xl text-center"onclick="openDigitalModule()">
+        <div class="text-3xl md:text-4xl mb-3 float">🚀</div>
+        <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_module_title">Start Learning With Digital Module</h3>
+        <p class="text-xs opacity-90" data-lang="action_module_desc">Digital Literacy Module</p>
+    </div>
+    
+    <div class="action-card purple p-4 md:p-6 rounded-2xl text-center" onclick="viewQuiz()">
+        <div class="text-3xl md:text-4xl mb-3 float delay-1">🎯</div>
+        <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_take_quiz_title">Take Quiz</h3>
+        <p class="text-xs opacity-90" data-lang="action_take_quiz_desc">5 available Course related Quiz</p>
+    </div>
+    
+    <div class="action-card orange p-4 md:p-6 rounded-2xl text-center" onclick="viewAnalysis()">
+        <div class="text-3xl md:text-4xl mb-3 float delay-2">📊</div>
+        <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_view_report_title">View Report</h3>
+        <p class="text-xs opacity-90" data-lang="action_view_report_desc">Review all the quiz result with analysis</p>
+    </div>
+
+    <!-- New AI Doubt Solver Card -->
+    <div class="action-card p-4 md:p-6 rounded-2xl text-center" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9));" onclick="openAIDoubtSolver()">
+        <div class="text-3xl md:text-4xl mb-3 float delay-1">🤖</div>
+        <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_ai_doubt_title">AI Doubt Solver</h3>
+        <p class="text-xs opacity-90" data-lang="action_ai_doubt_desc">Get instant help with your questions</p>
+    </div>
+
+    <!-- New Attendance Calendar Card -->
+    <div class="action-card p-4 md:p-6 rounded-2xl text-center" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.9), rgba(219, 39, 119, 0.9));" onclick="openAttendanceCalendar()">
+        <div class="text-3xl md:text-4xl mb-3 float delay-3">📅</div>
+        <h3 class="font-semibold mb-1 md:mb-2 text-sm md:text-base" data-lang="action_attendance_title">Mark Attendance</h3>
+        <p class="text-xs opacity-90" data-lang="action_attendance_desc">Update daily attendance with photo</p>
+    </div>
+</div>
+            <!-- Progress Section -->
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <!-- Lessons Completed -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-semibold text-lg text-gray-800" data-lang="progress_lesson_title">Lessons Completed</h3>
+                        <span class="text-3xl">📚</span>
+                    </div>
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="relative w-28 h-28">
+                            <svg class="transform -rotate-90 w-28 h-28">
+                                <circle cx="14" cy="14" r="45" stroke="#e2e8f0" stroke-width="4" fill="none" transform="translate(42, 42)"/>
+                                <circle cx="14" cy="14" r="45" stroke="#3b82f6" stroke-width="4" fill="none" 
+                                        class="progress-circle progress-75" stroke-linecap="round" transform="translate(42, 42)"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-blue-600">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-2" data-lang="progress_lesson_desc">18 of 24 lessons</p>
+                        <p class="text-sm text-green-600" data-lang="progress_lesson_status">🎉 Great progress!</p>
+                    </div>
+                </div>
+
+                <!-- Quizzes Attempted -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-semibold text-lg text-gray-800" data-lang="progress_quiz_title">Quizzes Attempted</h3>
+                        <span class="text-3xl">🎯</span>
+                    </div>
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="relative w-28 h-28">
+                            <svg class="transform -rotate-90 w-28 h-28">
+                                <circle cx="14" cy="14" r="45" stroke="#e2e8f0" stroke-width="4" fill="none" transform="translate(42, 42)"/>
+                                <circle cx="14" cy="14" r="45" stroke="#10b981" stroke-width="4" fill="none" 
+                                        class="progress-circle progress-60" stroke-linecap="round" transform="translate(42, 42)"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-green-600">60%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-2" data-lang="progress_quiz_desc">12 of 20 quizzes</p>
+                        <p class="text-sm text-blue-600" data-lang="progress_quiz_status">📈 Keep it up!</p>
+                    </div>
+                </div>
+
+                <!-- Digital Skills -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-semibold text-lg text-gray-800" data-lang="progress_skill_title">Digital Skills</h3>
+                        <span class="text-3xl">💻</span>
+                    </div>
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="relative w-28 h-28">
+                            <svg class="transform -rotate-90 w-28 h-28">
+                                <circle cx="14" cy="14" r="45" stroke="#e2e8f0" stroke-width="4" fill="none" transform="translate(42, 42)"/>
+                                <circle cx="14" cy="14" r="45" stroke="#8b5cf6" stroke-width="4" fill="none" 
+                                        class="progress-circle progress-40" stroke-linecap="round" transform="translate(42, 42)"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-purple-600">40%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-2" data-lang="progress_skill_desc">4 of 10 modules</p>
+                        <p class="text-sm text-orange-600" data-lang="progress_skill_status">💪 Getting started!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="font-semibold text-xl mb-6 gradient-text" data-lang="activity_heading">Recent Activity</h3>
+                <div class="space-y-4">
+                    <div class="activity-item flex items-center space-x-4 p-4 rounded-xl">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                            <span class="text-white text-lg">✓</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800" data-lang="activity_1_desc">Completed Mathematics Chapter 5</p>
+                            <p class="text-sm text-gray-500" data-lang="activity_1_time">2 hours ago</p>
+                        </div>
+                        <span class="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full">+10 XP</span>
+                    </div>
+                    
+                    <div class="activity-item flex items-center space-x-4 p-4 rounded-xl">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                            <span class="text-white text-lg">🎯</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800" data-lang="activity_2_desc">Scored 85% in Science Quiz</p>
+                            <p class="text-sm text-gray-500" data-lang="activity_2_time">Yesterday</p>
+                        </div>
+                        <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">+15 XP</span>
+                    </div>
+                    
+                    <div class="activity-item flex items-center space-x-4 p-4 rounded-xl">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white text-lg">🏆</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800" data-lang="activity_3_desc">Achieved "Fast Learner" badge</p>
+                            <p class="text-sm text-gray-500" data-lang="activity_3_time">2 days ago</p>
+                        </div>
+                        <span class="text-sm bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Badge</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-card py-8 px-6 mt-8 border-t border-gray-200">
+        <div class="text-center">
+            <p class="text-gray-600 mb-4" data-lang="footer_text">Powered by Nabha Digital Learning Initiative</p>
+            <div class="flex justify-center space-x-6">
+                <button class="text-blue-600 hover:text-blue-700 transition-colors" data-lang="footer_support_link">Contact Support</button>
+                <button class="text-green-600 hover:text-green-700 transition-colors" data-lang="footer_feedback_link">Feedback</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-30 z-30 hidden md:hidden"></div>
+
+    <script>
+        const newTranslations = {
+    en: {},
+    hi: {},
+    pa: {}
+};
+        // --- Localization Data ---
+        const localization = {
+            en: {
+                logo_text: "Nabha Digital Learning",
+                user_name: "Sahil",
+                user_class: "Class 7",
+                btn_logout: "Logout",
+                nav_dashboard: "My Dashboard",
+                nav_profile: "My Profile",
+                nav_courses: "My Courses",
+                nav_leaderboard: "Leaderboard",
+                settings_title: "Settings",
+                settings_lang_label: "🌍 Language",
+                nav_settings: "Settings",
+                welcome_user: "sahil",
+                welcome_subtitle: "Ready to learn something amazing today?",
+                welcome_status: "🎯 Keep up the great work!",
+                action_quiz_polish_title: "Take quiz To Polish Your Knowledge",
+                action_quiz_polish_desc: "And Make Your Position In the Leader Board",
+                action_module_title: "Start Learning With Digital Module",
+                action_module_desc: "Digital Literacy Module",
+                action_take_quiz_title: "Take Quiz",
+                action_take_quiz_desc: "5 available Course related Quiz",
+                action_view_report_title: "View Report",
+                action_view_report_desc: "Review all the quiz result with analysis",
+                action_ai_doubt_title: "AI Doubt Solver",
+                 action_ai_doubt_desc: "Get instant help with your questions",
+                action_attendance_title: "Mark Attendance", 
+                 action_attendance_desc: "Update daily attendance with photo",
+                progress_lesson_title: "Lessons Completed",
+                progress_lesson_desc: "18 of 24 lessons",
+                progress_lesson_status: "🎉 Great progress!",
+                progress_quiz_title: "Quizzes Attempted",
+                progress_quiz_desc: "12 of 20 quizzes",
+                progress_quiz_status: "📈 Keep it up!",
+                progress_skill_title: "Digital Skills",
+                progress_skill_desc: "4 of 10 modules",
+                progress_skill_status: "💪 Getting started!",
+                activity_heading: "Recent Activity",
+                activity_1_desc: "Completed Mathematics Chapter 5",
+                activity_1_time: "2 hours ago",
+                activity_2_desc: "Scored 85% in Science Quiz",
+                activity_2_time: "Yesterday",
+                activity_3_desc: "Achieved \"Fast Learner\" badge",
+                activity_3_time: "2 days ago",
+                footer_text: "Powered by Nabha Digital Learning Initiative",
+                footer_support_link: "Contact Support",
+                footer_feedback_link: "Feedback",
+            },
+            hi: {
+                logo_text: "नभा डिजिटल लर्निंग",
+                user_name: "साहिल",
+                user_class: "कक्षा 7",
+                btn_logout: "लॉगआउट",
+                nav_dashboard: "मेरा डैशबोर्ड",
+                nav_profile: "मेरी प्रोफ़ाइल",
+                nav_courses: "मेरे पाठ्यक्रम",
+                nav_leaderboard: "लीडरबोर्ड",
+                settings_title: "सेटिंग्स",
+                settings_lang_label: "🌍 भाषा",
+                nav_settings: "सेटिंग्स",
+                welcome_user: "साहिल",
+                welcome_subtitle: "आज कुछ अद्भुत सीखने के लिए तैयार हैं?",
+                welcome_status: "🎯 बहुत बढ़िया काम जारी रखें!",
+                action_quiz_polish_title: "अपना ज्ञान निखारने के लिए प्रश्नोत्तरी लें",
+                action_quiz_polish_desc: "और लीडर बोर्ड में अपनी स्थिति बनाएं",
+                action_module_title: "डिजिटल मॉड्यूल के साथ सीखना शुरू करें",
+                action_module_desc: "डिजिटल साक्षरता मॉड्यूल",
+                action_take_quiz_title: "प्रश्नोत्तरी लें",
+                action_take_quiz_desc: "5 उपलब्ध पाठ्यक्रम संबंधित प्रश्नोत्तरी",
+                action_view_report_title: "रिपोर्ट देखें",
+                action_view_report_desc: "विश्लेषण के साथ सभी प्रश्नोत्तरी परिणामों की समीक्षा करें",
+                action_ai_doubt_title: "एआई संदेह समाधानकर्ता",
+                action_ai_doubt_desc: "अपने प्रश्नों के लिए तुरंत सहायता पाएं",
+                action_attendance_title: "उपस्थिति चिह्नित करें",
+                action_attendance_desc: "फोटो के साथ दैनिक उपस्थिति अपडेट करें",
+                progress_lesson_title: "पूर्ण पाठ",
+                progress_lesson_desc: "24 में से 18 पाठ",
+                progress_lesson_status: "🎉 शानदार प्रगति!",
+                progress_quiz_title: "प्रश्नोत्तरी प्रयास किए गए",
+                progress_quiz_desc: "20 में से 12 प्रश्नोत्तरी",
+                progress_quiz_status: "📈 इसे जारी रखें!",
+                progress_skill_title: "डिजिटल कौशल",
+                progress_skill_desc: "10 में से 4 मॉड्यूल",
+                progress_skill_status: "💪 शुरुआत कर रहे हैं!",
+                activity_heading: "हाल की गतिविधियाँ",
+                activity_1_desc: "गणित अध्याय 5 पूरा किया",
+                activity_1_time: "2 घंटे पहले",
+                activity_2_desc: "विज्ञान प्रश्नोत्तरी में 85% अंक प्राप्त किए",
+                activity_2_time: "कल",
+                activity_3_desc: "\"तेज़ सीखने वाला\" बैज अर्जित किया",
+                activity_3_time: "2 दिन पहले",
+                footer_text: "नभा डिजिटल लर्निंग पहल द्वारा संचालित",
+                footer_support_link: "समर्थन से संपर्क करें",
+                footer_feedback_link: "प्रतिक्रिया",
+            },
+            pa: {
+                logo_text: "ਨਭਾ ਡਿਜੀਟਲ ਲਰਨਿੰਗ",
+                user_name: "ਸਾਹਿਲ",
+                user_class: "ਕਲਾਸ 7",
+                btn_logout: "ਲਾਗਆਊਟ",
+                nav_dashboard: "ਮੇਰਾ ਡੈਸ਼ਬੋਰਡ",
+                nav_profile: "ਮੇਰੀ ਪ੍ਰੋਫਾਈਲ",
+                nav_courses: "ਮੇਰੇ ਕੋਰਸ",
+                nav_leaderboard: "ਲੀਡਰਬੋਰਡ",
+                settings_title: "ਸੈਟਿੰਗਜ਼",
+                settings_lang_label: "🌍 ਭਾਸ਼ਾ",
+                nav_settings: "ਸੈਟਿੰਗਜ਼",
+                welcome_user: "ਸਾਹਿਲ",
+                welcome_subtitle: "ਅੱਜ ਕੁਝ ਸ਼ਾਨਦਾਰ ਸਿੱਖਣ ਲਈ ਤਿਆਰ ਹੋ?",
+                welcome_status: "🎯 ਬਹੁਤ ਵਧੀਆ ਕੰਮ ਜਾਰੀ ਰੱਖੋ!",
+                action_quiz_polish_title: "ਆਪਣੇ ਗਿਆਨ ਨੂੰ ਪਾਲਿਸ਼ ਕਰਨ ਲਈ ਕੁਇਜ਼ ਲਓ",
+                action_quiz_polish_desc: "ਅਤੇ ਲੀਡਰ ਬੋਰਡ ਵਿੱਚ ਆਪਣੀ ਸਥਿਤੀ ਬਣਾਓ",
+                action_module_title: "ਡਿਜੀਟਲ ਮੋਡੀਊਲ ਨਾਲ ਸਿੱਖਣਾ ਸ਼ੁਰੂ ਕਰੋ",
+                action_module_desc: "ਡਿਜੀਟਲ ਸਾਖਰਤਾ ਮੋਡੀਊਲ",
+                action_take_quiz_title: "ਕੁਇਜ਼ ਲਓ",
+                action_take_quiz_desc: "5 ਉਪਲਬਧ ਕੋਰਸ ਸੰਬੰਧੀ ਕੁਇਜ਼",
+                action_view_report_title: "ਰਿਪੋਰਟ ਵੇਖੋ",
+                action_view_report_desc: "ਵਿਸ਼ਲੇਸ਼ਣ ਨਾਲ ਸਾਰੇ ਕੁਇਜ਼ ਨਤੀਜਿਆਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ",
+                action_ai_doubt_title: "ਏਆਈ ਸ਼ੱਕ ਹੱਲ ਕਰਨ ਵਾਲਾ",
+                action_ai_doubt_desc: "ਆਪਣੇ ਸਵਾਲਾਂ ਲਈ ਤੁਰੰਤ ਮਦਦ ਪਾਓ",
+                 action_attendance_title: "ਹਾਜ਼ਰੀ ਮਾਰਕ ਕਰੋ",
+                action_attendance_desc: "ਫੋਟੋ ਨਾਲ ਰੋਜ਼ਾਨਾ ਹਾਜ਼ਰੀ ਅਪਡੇਟ ਕਰੋ",
+                progress_lesson_title: "ਪੂਰੇ ਕੀਤੇ ਪਾਠ",
+                progress_lesson_desc: "24 ਵਿੱਚੋਂ 18 ਪਾਠ",
+                progress_lesson_status: "🎉 ਬਹੁਤ ਵਧੀਆ ਤਰੱਕੀ!",
+                progress_quiz_title: "ਪ੍ਰయత్ਨ ਕੀਤੇ ਕੁਇਜ਼",
+                progress_quiz_desc: "20 ਵਿੱਚੋਂ 12 ਕੁਇਜ਼",
+                progress_quiz_status: "📈 ਇਸਨੂੰ ਜਾਰੀ ਰੱਖੋ!",
+                progress_skill_title: "ਡਿਜੀਟਲ ਹੁਨਰ",
+                progress_skill_desc: "10 ਵਿੱਚੋਂ 4 ਮੋਡੀਊਲ",
+                progress_skill_status: "💪 ਸ਼ੁਰੂ ਕਰ ਰਹੇ ਹਾਂ!",
+                activity_heading: "ਹਾਲੀਆ ਗਤੀਵਿਧੀ",
+                activity_1_desc: "ਗਣਿਤ ਅਧਿਆਇ 5 ਪੂਰਾ ਕੀਤਾ",
+                activity_1_time: "2 ਘੰਟੇ ਪਹਿਲਾਂ",
+                activity_2_desc: "ਵਿਗਿਆਨ ਕੁਇਜ਼ ਵਿੱਚ 85% ਅੰਕ ਪ੍ਰਾਪਤ ਕੀਤੇ",
+                activity_2_time: "ਕੱਲ੍ਹ",
+                activity_3_desc: "\"ਤੇਜ਼ ਸਿੱਖਣ ਵਾਲਾ\" ਬੈਜ ਪ੍ਰਾਪਤ ਕੀਤਾ",
+                activity_3_time: "2 ਦਿਨ ਪਹਿਲਾਂ",
+                footer_text: "ਨਭਾ ਡਿਜੀਟਲ ਲਰਨਿੰਗ ਪਹਿਲ ਦੁਆਰਾ ਸੰਚਾਲਿਤ",
+                footer_support_link: "ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+                footer_feedback_link: "ਫੀਡਬੈਕ",
+            }
+        };
+       /* Object.keys(newTranslations).forEach(lang => {
+    if (localization[lang]) {
+        Object.assign(localization[lang], newTranslations[lang]);
+    }*
+});*/
+
+        let currentLang = 'en';
+
+        // --- Core Translation Function ---
+        function translateContent(langCode) {
+            const translations = localization[langCode];
+            if (!translations) return;
+
+            currentLang = langCode;
+            // Store preference for offline use
+            localStorage.setItem('userLang', langCode);
+            
+            // Update display element in header
+            document.getElementById('current-lang-display-desktop').textContent = langCode.toUpperCase();
+            
+            // Update sidebar dropdown
+            document.getElementById('lang-selector-sidebar').value = langCode;
+            
+            // Apply translations
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                
+                if (translations[key]) {
+                    // Use innerHTML for elements that might contain structure (like emojis/icons)
+                    if (element.tagName === 'BUTTON' || element.tagName === 'H1' || element.tagName === 'H3') {
+                        element.innerHTML = translations[key];
+                    } else {
+                        element.textContent = translations[key];
+                    }
+                }
+            });
+        }
+
+        // --- Initialization and Event Listeners ---
+        function initializeLang() {
+            // 1. Check localStorage for saved preference
+            const savedLang = localStorage.getItem('userLang');
+            let langToUse = 'en';
+
+            if (savedLang && localization[savedLang]) {
+                langToUse = savedLang;
+            } else {
+                // Fallback to browser language if available and supported
+                const browserLang = navigator.language.substring(0, 2);
+                if (localization[browserLang]) {
+                    langToUse = browserLang;
+                }
+            }
+            
+            translateContent(langToUse);
+        }
+
+        // Attach event listeners for language change
+        document.querySelectorAll('.lang-option').forEach(button => {
+            button.addEventListener('click', function() {
+                const langCode = this.getAttribute('data-lang-code');
+                translateContent(langCode);
+            });
+        });
+
+        // Sidebar Language Selector Listener
+        document.getElementById('lang-selector-sidebar').addEventListener('change', function() {
+            translateContent(this.value);
+        });
+/*function updateUserInfo() {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    if (token && user.fullName) {
+        // Generate initials
+        const initials = user.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        
+        // Update main header
+        document.getElementById('student-name-display').textContent = user.fullName;
+        document.getElementById('student-class-display').textContent = `Class ${user.std}`;
+        document.getElementById('student-initials').textContent = initials;
+        
+        // Update sidebar
+        document.getElementById('sidebar-student-name').textContent = user.fullName;
+        document.getElementById('sidebar-student-class').textContent = `Class ${user.std}`;
+        document.getElementById('sidebar-student-initials').textContent = initials;
+        
+        // Update hero section
+        updateDynamicWelcome(user.fullName);
+    }
+}*/
+
+function updateUserInfo() {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    if (token && user.fullName) {
+        // Generate initials
+        const initials = user.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        
+        // Update main header
+        document.getElementById('student-name-display').textContent = user.fullName;
+        document.getElementById('student-class-display').textContent = `Class ${user.std}`;
+        document.getElementById('student-initials').textContent = initials;
+        
+        // Update sidebar
+        document.getElementById('sidebar-student-name').textContent = user.fullName;
+        document.getElementById('sidebar-student-class').textContent = `Class ${user.std}`;
+        document.getElementById('sidebar-student-initials').textContent = initials;
+        
+        // Update hero section dynamically
+        updateDynamicWelcome(user.fullName, user.std);
+    }
+}
+function updateDynamicWelcome(userName, userClass) {
+    const currentHour = new Date().getHours();
+    let greeting = "Hello";
+    let statusMessage = "🎯 Keep up the great work!";
+    
+    if (currentHour < 12) {
+        greeting = "Good Morning";
+        statusMessage = "🌞 Perfect time to start learning!";
+    } else if (currentHour < 17) {
+        greeting = "Good Afternoon";  
+        statusMessage = "📚 Continue your learning journey!";
+    } else {
+        greeting = "Good Evening";
+        statusMessage = "🌟 Great work today!";
+    }
+    
+    // Update welcome elements
+    document.getElementById('dynamic-welcome-title').innerHTML = `${greeting}, <span id="welcome-student-name">${userName}</span>! 👋`;
+    document.getElementById('welcome-status').textContent = statusMessage;
+    
+    // Update based on class for personalized message
+    if (userClass) {
+        const subtitle = document.getElementById('dynamic-welcome-subtitle');
+        if (parseInt(userClass) >= 8) {
+            subtitle.textContent = "Ready to tackle advanced concepts today?";
+        } else {
+            subtitle.textContent = "Ready to learn something amazing today?";
+        }
+    }
+}
+/*function updateDynamicWelcome(userName, userClass) {
+    const currentHour = new Date().getHours();
+    let greeting = "Hello";
+    let statusMessage = "🎯 Keep up the great work!";
+    
+    if (currentHour < 12) {
+        greeting = "Good Morning";
+        statusMessage = "🌞 Perfect time to start learning!";
+    } else if (currentHour < 17) {
+        greeting = "Good Afternoon";  
+        statusMessage = "📚 Continue your learning journey!";
+    } else {
+        greeting = "Good Evening";
+        statusMessage = "🌟 Great work today!";
+    }
+    
+    // Update welcome elements
+    document.getElementById('dynamic-welcome-title').innerHTML = `${greeting}, <span id="welcome-student-name">${userName}</span>! 👋`;
+    document.getElementById('welcome-status').textContent = statusMessage;
+    
+    // Update based on class for personalized message
+    if (userClass) {
+        const subtitle = document.getElementById('dynamic-welcome-subtitle');
+        if (parseInt(userClass) >= 8) {
+            subtitle.textContent = "Ready to tackle advanced concepts today?";
+        } else {
+            subtitle.textContent = "Ready to learn something amazing today?";
+        }
+    }
+}*/
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+        sidebar.classList.add('open');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove('hidden');
+        } else {
+            // Create overlay if it doesn't exist
+            const overlay = document.createElement('div');
+            overlay.id = 'sidebarOverlay';
+            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm md:hidden';
+            overlay.addEventListener('click', closeSidebarMenu);
+            document.body.appendChild(overlay);
+        }
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebarMenu() {
+        sidebar.classList.remove('open');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) {
+            overlay.classList.add('hidden');
+        }
+        document.body.style.overflow = 'auto';
+    }
+
+    if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+    if (closeSidebar) closeSidebar.addEventListener('click', closeSidebarMenu);
+
+    // Close sidebar on window resize if desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            closeSidebarMenu();
+        }
+    });
+
+    // Initialize user info
+    updateUserInfo();
+});
+
+// Language dropdown functionality
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.lang-option').forEach(button => {
+        button.addEventListener('click', function() {
+            const langCode = this.getAttribute('data-lang-code');
+            translateContent(langCode);
+        });
+    });
+
+    document.getElementById('lang-selector-sidebar').addEventListener('change', function() {
+        translateContent(this.value);
+    });
+});   
+/*function updateWelcomeBanner() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const currentHour = new Date().getHours();
+    let greeting = "Hello";
+    
+    if (currentHour < 12) {
+        greeting = "Good Morning";
+    } else if (currentHour < 17) {
+        greeting = "Good Afternoon";  
+    } else {
+        greeting = "Good Evening";
+    }
+    
+    // Update welcome message based on language
+    const welcomeTitle = document.querySelector('h1');
+    if (welcomeTitle && user.fullName) {
+        const currentLangGreeting = {
+            'en': greeting,
+            'hi': currentHour < 12 ? 'सुप्रभात' : currentHour < 17 ? 'शुभ दोपहर' : 'शुभ संध्या',
+            'pa': currentHour < 12 ? 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ' : currentHour < 17 ? 'ਸ਼ੁਭ ਦੁਪਹਿਰ' : 'ਸ਼ੁਭ ਸ਼ਾਮ'
+        };
+        
+        const lang = localStorage.getItem('userLang') || 'en';
+        welcomeTitle.innerHTML = `${currentLangGreeting[lang]} <span class="gradient-text">${user.fullName}</span>! 👋`;
+    }
+}*/
+/*function updateDynamicWelcome(userName) {
+    const currentHour = new Date().getHours();
+    let greeting = "Welcome";
+    
+    if (currentHour < 12) {
+        greeting = "Good Morning";
+    } else if (currentHour < 17) {
+        greeting = "Good Afternoon";  
+    } else {
+        greeting = "Good Evening";
+    }
+    
+    document.getElementById('dynamic-welcome-title').textContent = `${greeting}, ${userName}!`;
+    document.getElementById('dynamic-welcome-subtitle').textContent = "Ready to learn something amazing today?";
+}*/
+
+// Call on page load and language change
+document.addEventListener('DOMContentLoaded', updateWelcomeBanner);
+
+        // Sidebar functionality
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebarMenu() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        menuBtn.addEventListener('click', openSidebar);
+        closeSidebar.addEventListener('click', closeSidebarMenu);
+        sidebarOverlay.addEventListener('click', closeSidebarMenu);
+
+        // Close sidebar on window resize if desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                closeSidebarMenu();
+            }
+        });
+
+        // --- Initialization & Utility ---
+       /* window.addEventListener('load', () => {
+            initializeLang();
+            // Trigger progress bar animation once styles are loaded
+            setTimeout(() => {
+                document.querySelectorAll('.progress-circle').forEach(circle => {
+                    circle.style.strokeDashoffset = circle.getAttribute('stroke-dashoffset') || 283; // Ensure transition works
+                });
+            }, 100);
+        })*/;
+        document.addEventListener('DOMContentLoaded', function() {
+    // Initialize language first
+    initializeLang();
+    
+    // Then update user info
+    updateUserInfo();
+    
+    // Setup event listeners
+    setupLanguageEventListeners();
+    
+    // Setup sidebar functionality
+    setupSidebarFunctionality();
+    
+    // Trigger progress bar animation
+    setTimeout(() => {
+        document.querySelectorAll('.progress-circle').forEach(circle => {
+            circle.style.strokeDashoffset = circle.getAttribute('stroke-dashoffset') || 283;
+        });
+    }, 100);
+});
+function setupLanguageEventListeners() {
+    // Desktop language dropdown
+    document.querySelectorAll('.lang-option').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const langCode = this.getAttribute('data-lang-code');
+            translateContent(langCode);
+        });
+    });
+
+    // Sidebar language selector
+    const sidebarSelector = document.getElementById('lang-selector-sidebar');
+    if (sidebarSelector) {
+        sidebarSelector.addEventListener('change', function() {
+            translateContent(this.value);
+        });
+    }
+}
+function setupSidebarFunctionality() {
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+        sidebar.classList.remove('hidden');
+        sidebar.classList.add('open');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove('hidden');
+        }
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebarMenu() {
+        sidebar.classList.remove('open');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.add('hidden');
+        }
+        document.body.style.overflow = 'auto';
+    }
+
+    if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+    if (closeSidebar) closeSidebar.addEventListener('click', closeSidebarMenu);
+    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebarMenu);
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            closeSidebarMenu();
+        }
+    });
+}
+    function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+        function leaderboard(){
+            window.location.href = '/leader-board';
+        }
+        function viewAnalysis(){
+            window.location.href = '/student-analysis';
+        }
+        function viewQuiz(){
+            window.location.href = '/quiz-level';
+        }
+        function openAIDoubtSolver() {
+    window.location.href = '/ai-doubt-solver';
+}
+
+function openAttendanceCalendar() {
+    window.location.href = '/attendance-calendar';
+}
+function openDigitalModule() {
+    window.location.href = '/module1';
+}
+function openlevel1(){
+    window.location.href = '/level1';
+}
+function defaullevel(){
+    window.location.href = '/defaultlevel';
+}
+// Call updateUserInfo on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateUserInfo();
+});
+    </script>
+</body>
+</html>

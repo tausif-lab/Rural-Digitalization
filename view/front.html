@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nabha Digital Learning - Premium Digital Learning</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Animated Background Pattern */
+    .pattern-bg {
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.05) 0%, transparent 25%);
+      background-size: 100px 100px;
+      animation: pattern-move 20s linear infinite;
+    }
+
+    @keyframes pattern-move {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 100px 100px, -100px -100px; }
+    }
+
+    /* Floating Shapes */
+    .floating-shape {
+      position: absolute;
+      opacity: 0.1;
+      animation: float-shape 15s ease-in-out infinite;
+    }
+
+    .shape-1 {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(45deg, #6366f1, #8b5cf6);
+      border-radius: 30px;
+      top: 10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+
+    .shape-2 {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, #06b6d4, #3b82f6);
+      border-radius: 50%;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 8s;
+    }
+
+    @keyframes float-shape {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* Glass Navigation */
+    .nav-glass {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Hero Animations */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fade-in-up 1s ease-out forwards;
+    }
+
+    .fade-in-up.delay-1 { animation-delay: 0.2s; }
+    .fade-in-up.delay-2 { animation-delay: 0.4s; }
+    .fade-in-up.delay-3 { animation-delay: 0.6s; }
+
+    @keyframes fade-in-up {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Button Hover Effects */
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-outline {
+      border: 2px solid #6366f1;
+      color: #6366f1;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: #6366f1;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Card Hover Effects */
+    .card-hover {
+      background: white;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    /* Role Cards */
+    .role-card {
+      background: linear-gradient(135deg, white 0%, #f8fafc 100%);
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .role-card:hover {
+      border-color: #6366f1;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Floating Animation */
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .float.delay-1 { animation-delay: 1s; }
+    .float.delay-2 { animation-delay: 2s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Icon Effects */
+    .icon-bounce {
+      animation: icon-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes icon-bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* Feature Icons */
+    .feature-icon {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      transition: all 0.3s ease;
+    }
+
+    .feature-icon:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Stats Section */
+    .stats-bg {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+     }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(99, 102, 241, 0.2);
+    }
+    /* Update the existing grid class */
+.grid.md:grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Add new responsive grid for 4 columns */
+@media (min-width: 1024px) {
+  .roles-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .roles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .roles-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .floating-shape { display: none; }
+    }
+  </style>
+</head>
+<body class="pattern-bg">
+  <!-- Floating Background Shapes -->
+  <div class="floating-shape shape-1"></div>
+  <div class="floating-shape shape-2"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-glass sticky top-0 w-full z-50 px-6 lg:px-8 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-r from-white-500 to-white-600 rounded-xl flex items-center justify-center">
+          <span class="text-white font-bold text-lg"></span>
+        </div>
+        <span class="text-xl font-semibold text-gray-800" data-lang="logo_text">Nabha Digital Learning</span>
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="#hero" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium" data-lang="nav_home">Home</a>
+        <a href="#roles" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium" data-lang="nav_roles">Roles</a>
+        <a href="#features" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium" data-lang="nav_features">Features</a>
+        <a href="#impact" class="text-gray-600 hover:text-indigo-600 transition-colors font-medium" data-lang="nav_impact">Impact</a>
+        
+        <!-- Language Switcher -->
+        <div class="relative group">
+          <button id="lang-switcher-btn" class="btn-outline px-4 py-2 rounded-lg font-medium flex items-center space-x-2">
+            <span id="current-lang-display">EN</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div id="lang-dropdown" class="absolute right-0 mt-2 w-24 bg-white border border-gray-200 rounded-lg shadow-xl hidden group-hover:block z-20">
+            <button data-lang-code="en" class="lang-option block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50">English</button>
+            <button data-lang-code="hi" class="lang-option block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50">हिन्दी</button>
+            <button data-lang-code="pa" class="lang-option block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50">ਪੰਜਾਬੀ</button>
+          </div>
+        </div>
+        <!-- Language Switcher -->
+
+       
+
+        <button class="btn-primary px-6 py-2 rounded-lg font-medium text-white" onclick="regirectToLogin()">
+          Get Started
+        </button>
+      </div>
+
+      <button class="md:hidden" id="mobile-menu-btn">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- Mobile Menu (Hidden by default) -->
+  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-white z-40 p-6 pt-20 shadow-2xl">
+      <a href="#hero" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 border-b" data-lang="nav_home">Home</a>
+      <a href="#roles" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 border-b" data-lang="nav_roles">Roles</a>
+      <a href="#features" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 border-b" data-lang="nav_features">Features</a>
+      <a href="#impact" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 border-b" data-lang="nav_impact">Impact</a>
+      <div class="py-3 border-b">
+        <h4 class="text-md mb-2 text-gray-500">Language</h4>
+        <button data-lang-code="en" class="lang-option w-full text-left py-2 text-gray-700 hover:bg-indigo-50 rounded-md">English</button>
+        <button data-lang-code="hi" class="lang-option w-full text-left py-2 text-gray-700 hover:bg-indigo-50 rounded-md">हिन्दी</button>
+        <button data-lang-code="pa" class="lang-option w-full text-left py-2 text-gray-700 hover:bg-indigo-50 rounded-md">ਪੰਜਾਬੀ</button>
+      </div>
+      <button class="btn-primary w-full mt-6 py-3 rounded-xl text-lg font-semibold text-white" onclick="regirectToLogin()">Start Learning</button>
+  </div>
+
+
+  <!-- Hero Section -->
+  <section id="hero" class="min-h-screen flex items-center justify-center pt-20 px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Left Column -->
+        <div class="text-center lg:text-left">
+          <h1 class="text-5xl lg:text-7xl font-bold mb-6 fade-in-up text-gray-800">
+            <span class="gradient-text">Nabha</span><br>
+            <span data-lang="app_name_part2">Digital Learning</span>
+          </h1>
+          <p class="text-xl lg:text-2xl text-gray-600 mb-8 fade-in-up delay-1">
+            <span data-lang="hero_subtitle_1">Premium Digital Learning for Every Child,</span><br>
+            <span class="text-indigo-600" data-lang="hero_subtitle_2">Anytime, Anywhere</span>
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start fade-in-up delay-2">
+            <button class="btn-primary px-8 py-4 rounded-xl text-lg font-semibold text-white" onclick="regirectToRegister()">
+              <span data-lang="btn_start">🚀 Start Learning</span>
+            </button>
+            <button class="btn-outline px-8 py-4 rounded-xl text-lg font-semibold">
+              <span data-lang="btn_learn_more">📖 Learn More</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="relative flex justify-center">
+          <div class="relative">
+            <!-- Main Visual Card -->
+            <div class="hero-visual p-8 rounded-3xl w-80 h-80 flex flex-col items-center justify-center">
+              <div class="text-6xl mb-6 icon-bounce">📚</div>
+              <h3 class="text-2xl font-semibold mb-4 gradient-text" data-lang="hero_visual_title">Learn Together</h3>
+              <div class="flex space-x-4 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center float text-white">
+                  👨‍🎓
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center float delay-1 text-white">
+                  👩‍🎓
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center float delay-2 text-white">
+                  📱
+                </div>
+              </div>
+              <p class="text-gray-600 text-center" data-lang="hero_visual_desc">Rural Students Connected</p>
+            </div>
+
+            <!-- Floating Elements -->
+            <div class="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center float shadow-lg">
+              <span class="text-2xl">✨</span>
+            </div>
+            <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center float delay-1 shadow-lg">
+              <span class="text-2xl">🎯</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roles Section -->
+  <section id="roles" class="py-20 px-6 lg:px-8 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-4 reveal text-gray-800">
+          Choose Your <span class="gradient-text" data-lang="roles_heading_highlight">Role</span>
+        </h2>
+        <p class="text-xl text-gray-600 max-w-xl mx-auto reveal" data-lang="roles_subheading">Select your path to start your learning journey</p>
+      </div>
+
+     <!--<div class="grid md:grid-cols-3 gap-8">
+        <!-- Student Card --
+        <div class="role-card p-8 rounded-3xl text-center reveal">
+          <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-3xl text-white">🎓</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_student_title">Students</h3>
+          <p class="text-gray-600 mb-6" data-lang="role_student_desc">Access interactive lessons, videos, and practice exercises designed for rural learners</p>
+          <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white" onclick="regirectToRegister()">
+            <span data-lang="role_student_btn">Start Learning</span>
+          </button>
+        </div>
+
+        <!-- Teacher Card --
+        <div class="role-card p-8 rounded-3xl text-center reveal">
+          <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-3xl text-white">👩‍🏫</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_teacher_title">Teachers</h3>
+          <p class="text-gray-600 mb-6" data-lang="role_teacher_desc">Manage classes, track student progress, and create personalized assignments</p>
+          <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white" onclick="regirectToLoginT()">
+            <span data-lang="role_teacher_btn">Teacher Dashboard</span>
+          </button>
+        </div>
+
+        <!-- Parent/Admin Card --
+        <div class="role-card p-8 rounded-3xl text-center reveal">
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-3xl text-white">👨‍👩‍👧</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_parent_title">Parents/Admin</h3>
+          <p class="text-gray-600 mb-6" data-lang="role_parent_desc">Monitor student progress and access detailed performance reports</p>
+          <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white">
+            <span data-lang="role_parent_btn">View Reports</span>
+          </button>
+        </div>
+        <div class="role-card p-8 rounded-3xl text-center reveal">
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-3xl text-white">👨‍👩‍👧</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_parent_title">Authority</h3>
+          <p class="text-gray-600 mb-6" data-lang="role_parent_desc">Monitor school progress and access detailed performance reports</p>
+          <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white">
+            <span data-lang="role_parent_btn">View Reports</span>
+          </button>
+        </div>
+      </div>-->
+      <div class="roles-grid grid gap-8">
+  <!-- Student Card -->
+  <div class="role-card p-8 rounded-3xl text-center reveal">
+    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+      <span class="text-3xl text-white">🎓</span>
+    </div>
+    <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_student_title">Students</h3>
+    <p class="text-gray-600 mb-6" data-lang="role_student_desc">Access interactive lessons, videos, and practice exercises designed for rural learners</p>
+    <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white" onclick="regirectToRegister()">
+      <span data-lang="role_student_btn">Start Learning</span>
+    </button>
+  </div>
+
+  <!-- Teacher Card -->
+  <div class="role-card p-8 rounded-3xl text-center reveal">
+    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+      <span class="text-3xl text-white">👩‍🏫</span>
+    </div>
+    <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_teacher_title">Teachers</h3>
+    <p class="text-gray-600 mb-6" data-lang="role_teacher_desc">Manage classes, track student progress, and create personalized assignments</p>
+    <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white" onclick="regirectToLoginT()">
+      <span data-lang="role_teacher_btn">Teacher Dashboard</span>
+    </button>
+  </div>
+
+  <!-- Authority Card (NEW) -->
+  <div class="role-card p-8 rounded-3xl text-center reveal">
+    <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+      <span class="text-3xl text-white">👨‍💼</span>
+    </div>
+    <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_authority_title">Authority</h3>
+    <p class="text-gray-600 mb-6" data-lang="role_authority_desc">Monitor school progress and access detailed performance reports</p>
+    <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white" onclick="redirectToAuthorityLogin()">
+      <span data-lang="role_authority_btn">Authority Dashboard</span>
+    </button>
+  </div>
+
+  <!-- Parent/Admin Card -->
+  <div class="role-card p-8 rounded-3xl text-center reveal">
+    <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+      <span class="text-3xl text-white">👨‍👩‍👧</span>
+    </div>
+    <h3 class="text-2xl font-semibold mb-4 text-gray-800" data-lang="role_parent_title">Parents/Admin</h3>
+    <p class="text-gray-600 mb-6" data-lang="role_parent_desc">Monitor student progress and access detailed performance reports</p>
+    <button class="btn-primary w-full py-3 rounded-xl font-semibold text-white" onclick="redirectToParentLogin()">
+      <span data-lang="role_parent_btn">View Reports</span>
+    </button>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-4 reveal text-gray-800">
+          Why Choose <span class="gradient-text" data-lang="features_heading_highlight">Nabha Digital Learning?</span>
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto reveal" data-lang="features_subheading">Designed specifically for rural schools with features that work in real-world conditions</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center reveal">
+          <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-2xl text-white">📱</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-800" data-lang="feature_1_title">Works Offline</h3>
+          <p class="text-gray-600" data-lang="feature_1_desc">Download lessons and study without internet connectivity</p>
+        </div>
+
+        <div class="text-center reveal">
+          <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-2xl text-white">🌍</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-800" data-lang="feature_2_title">Local Languages</h3>
+          <p class="text-gray-600" data-lang="feature_2_desc">Content available in Punjabi, Hindi, and English</p>
+        </div>
+
+        <div class="text-center reveal">
+          <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-2xl text-white">🎮</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-800" data-lang="feature_3_title">Interactive Lessons</h3>
+          <p class="text-gray-600" data-lang="feature_3_desc">Gamified learning with quizzes and activities</p>
+        </div>
+
+        <div class="text-center reveal">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 feature-icon">
+            <span class="text-2xl text-white">📊</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-800" data-lang="feature_4_title">Track Progress</h3>
+          <p class="text-gray-600" data-lang="feature_4_desc">Detailed analytics and performance reports</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section id="impact" class="py-20 px-6 lg:px-8 stats-bg text-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal" data-lang="impact_heading">
+          Bridging the Education Gap
+        </h2>
+        <p class="text-xl text-blue-100 max-w-4xl mx-auto reveal" data-lang="impact_subheading">
+          Every child deserves quality education, regardless of their location. Our platform ensures that rural students in Nabha have the same learning opportunities as their urban counterparts.
+        </p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid md:grid-cols-3 gap-8 mb-16">
+        <div class="text-center stat-card p-8 rounded-2xl reveal">
+          <div class="text-4xl lg:text-5xl font-bold mb-2" data-lang="stat_1_value">500+</div>
+          <p class="text-blue-100 text-lg" data-lang="stat_1_label">Students Enrolled</p>
+        </div>
+        <div class="text-center stat-card p-8 rounded-2xl reveal">
+          <div class="text-4xl lg:text-5xl font-bold mb-2" data-lang="stat_2_value">50+</div>
+          <p class="text-blue-100 text-lg" data-lang="stat_2_label">Rural Schools</p>
+        </div>
+        <div class="text-center stat-card p-8 rounded-2xl reveal">
+          <div class="text-4xl lg:text-5xl font-bold mb-2" data-lang="stat_3_value">98%</div>
+          <p class="text-blue-100 text-lg" data-lang="stat_3_label">Completion Rate</p>
+        </div>
+      </div>
+
+      <!-- Equality Visual -->
+      <div class="stat-card p-12 rounded-3xl text-center reveal">
+        <div class="flex items-center justify-center space-x-8 mb-6">
+          <div class="text-center">
+            <div class="text-5xl mb-2">🏫</div>
+            <p class="text-blue-100" data-lang="equality_rural">Rural Schools</p>
+          </div>
+          <div class="text-4xl font-bold">=</div>
+          <div class="text-center">
+            <div class="text-5xl mb-2">🏢</div>
+            <p class="text-blue-100" data-lang="equality_urban">Urban Schools</p>
+          </div>
+        </div>
+        <h3 class="text-2xl font-semibold" data-lang="equality_message">Equal Opportunities for All</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 px-6 lg:px-8 bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center">
+        <div class="flex items-center justify-center space-x-3 mb-6">
+          <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <span class="text-white font-bold text-xl">N</span>
+          </div>
+          <span class="text-2xl font-semibold text-gray-800" data-lang="footer_logo_text">Nabha Digital Learning</span>
+        </div>
+        
+        <p class="text-gray-600 mb-8" data-lang="footer_support_text">
+          Supported by Punjab Education Department
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+          <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl transition-colors">
+            <span data-lang="footer_contact">📧 Contact Us</span>
+          </button>
+          <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl transition-colors">
+            <span data-lang="footer_feedback">💬 Feedback</span>
+          </button>
+          <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl transition-colors">
+            <span data-lang="footer_support">📞 Support</span>
+          </button>
+        </div>
+        
+        <div class="border-t border-gray-200 pt-6">
+          <p class="text-gray-500" data-lang="footer_copyright">
+            © 2024 Nabha Digital Learning Platform. Empowering rural education in Punjab.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Localization Data ---
+    const localization = {
+        en: {
+            logo_text: "Nabha Digital Learning",
+            nav_home: "Home",
+            nav_roles: "Roles",
+            nav_features: "Features",
+            nav_impact: "Impact",
+            app_name_part2: "Digital Learning",
+            hero_subtitle_1: "Premium Digital Learning for Every Child,",
+            hero_subtitle_2: "Anytime, Anywhere",
+            btn_start: "🚀 Start Learning",
+            btn_learn_more: "📖 Learn More",
+            hero_visual_title: "Learn Together",
+            hero_visual_desc: "Rural Students Connected",
+            roles_heading_highlight: "Role",
+            roles_subheading: "Select your path to start your learning journey",
+            role_student_title: "Students",
+            role_student_desc: "Access interactive lessons, videos, and practice exercises designed for rural learners",
+            role_student_btn: "Start Learning",
+            role_teacher_title: "Teachers",
+            role_teacher_desc: "Manage classes, track student progress, and create personalized assignments",
+            role_teacher_btn: "Teacher Dashboard",
+            role_parent_title: "Parents/Admin",
+            role_parent_desc: "Monitor student progress and access detailed performance reports",
+            role_parent_btn: "View Reports",
+            features_heading_highlight: "Nabha Digital Learning?",
+            features_subheading: "Designed specifically for rural schools with features that work in real-world conditions",
+            role_authority_title: "Authority",
+            role_authority_desc: "Monitor school progress and access detailed performance reports",
+            role_authority_btn: "Authority Dashboard",
+
+            feature_1_title: "Works Offline",
+            feature_1_desc: "Download lessons and study without internet connectivity",
+            feature_2_title: "Local Languages",
+            feature_2_desc: "Content available in Punjabi, Hindi, and English",
+            feature_3_title: "Interactive Lessons",
+            feature_3_desc: "Gamified learning with quizzes and activities",
+            feature_4_title: "Track Progress",
+            feature_4_desc: "Detailed analytics and performance reports",
+            impact_heading: "Bridging the Education Gap",
+            impact_subheading: "Every child deserves quality education, regardless of their location. Our platform ensures that rural students in Nabha have the same learning opportunities as their urban counterparts.",
+            stat_1_value: "500+",
+            stat_1_label: "Students Enrolled",
+            stat_2_value: "50+",
+            stat_2_label: "Rural Schools",
+            stat_3_value: "98%",
+            stat_3_label: "Completion Rate",
+            equality_rural: "Rural Schools",
+            equality_urban: "Urban Schools",
+            equality_message: "Equal Opportunities for All",
+            footer_logo_text: "Nabha Digital Learning",
+            footer_support_text: "Supported by Punjab Education Department",
+            footer_contact: "📧 Contact Us",
+            footer_feedback: "💬 Feedback",
+            footer_support: "📞 Support",
+            footer_copyright: "© 2024 Nabha Digital Learning Platform. Empowering rural education in Punjab.",
+        },
+        hi: {
+            logo_text: "नभा डिजिटल लर्निंग",
+            nav_home: "होम",
+            nav_roles: "भूमिकाएं",
+            nav_features: "विशेषताएं",
+            nav_impact: "प्रभाव",
+            app_name_part2: "डिजिटल शिक्षा",
+            hero_subtitle_1: "हर बच्चे के लिए प्रीमियम डिजिटल शिक्षा,",
+            hero_subtitle_2: "कभी भी, कहीं भी",
+            btn_start: "🚀 सीखना शुरू करें",
+            btn_learn_more: "📖 और जानें",
+            hero_visual_title: "एक साथ सीखें",
+            hero_visual_desc: "ग्रामीण छात्र जुड़े हुए",
+            roles_heading_highlight: "भूमिका",
+            roles_subheading: "अपनी सीखने की यात्रा शुरू करने के लिए अपना रास्ता चुनें",
+            role_student_title: "छात्र",
+            role_student_desc: "ग्रामीण शिक्षार्थियों के लिए डिज़ाइन किए गए इंटरैक्टिव पाठ, वीडियो और अभ्यास तक पहुंचें",
+            role_student_btn: "सीखना शुरू करें",
+            role_teacher_title: "शिक्षक",
+            role_teacher_desc: "कक्षाओं का प्रबंधन करें, छात्र की प्रगति को ट्रैक करें और व्यक्तिगत असाइनमेंट बनाएं",
+            role_teacher_btn: "शिक्षक डैशबोर्ड",
+            role_parent_title: "अभिभावक/प्रशासन",
+            role_parent_desc: "छात्र की प्रगति की निगरानी करें और विस्तृत प्रदर्शन रिपोर्ट तक पहुंचें",
+            role_parent_btn: "रिपोर्ट देखें",
+            features_heading_highlight: "नभा डिजिटल लर्निंग?",
+            features_subheading: "विशेष रूप से ग्रामीण स्कूलों के लिए डिज़ाइन की गई विशेषताएं जो वास्तविक दुनिया की स्थितियों में काम करती हैं",
+            role_authority_title: "प्राधिकारी",
+            role_authority_desc: "स्कूल की प्रगति की निगरानी करें और विस्तृत प्रदर्शन रिपोर्ट तक पहुंचें",
+            role_authority_btn: "प्राधिकारी डैशबोर्ड",
+
+            feature_1_title: "ऑफ़लाइन काम करता है",
+            feature_1_desc: "इंटरनेट कनेक्टिविटी के बिना पाठ डाउनलोड करें और अध्ययन करें",
+            feature_2_title: "स्थानीय भाषाएँ",
+            feature_2_desc: "सामग्री पंजाबी, हिंदी और अंग्रेजी में उपलब्ध है",
+            feature_3_title: "इंटरैक्टिव पाठ",
+            feature_3_desc: "प्रश्नोत्तरी और गतिविधियों के साथ गेमिफाइड शिक्षा",
+            feature_4_title: "प्रगति ट्रैक करें",
+            feature_4_desc: "विस्तृत एनालिटिक्स और प्रदर्शन रिपोर्ट",
+            impact_heading: "शिक्षा अंतराल को पाटना",
+            impact_subheading: "हर बच्चे को गुणवत्तापूर्ण शिक्षा का अधिकार है, चाहे उनका स्थान कुछ भी हो। हमारा प्लेटफॉर्म सुनिश्चित करता है कि नभा के ग्रामीण छात्रों के पास उनके शहरी समकक्षों के समान सीखने के अवसर हों।",
+            stat_1_value: "500+",
+            stat_1_label: "नामांकित छात्र",
+            stat_2_value: "50+",
+            stat_2_label: "ग्रामीण स्कूल",
+            stat_3_value: "98%",
+            stat_3_label: "पूर्णता दर",
+            equality_rural: "ग्रामीण स्कूल",
+            equality_urban: "शहरी स्कूल",
+            equality_message: "सभी के लिए समान अवसर",
+            footer_logo_text: "नभा डिजिटल लर्निंग",
+            footer_support_text: "पंजाब शिक्षा विभाग द्वारा समर्थित",
+            footer_contact: "📧 हमसे संपर्क करें",
+            footer_feedback: "💬 प्रतिक्रिया",
+            footer_support: "📞 समर्थन",
+            footer_copyright: "© 2024 नभा डिजिटल लर्निंग प्लेटफॉर्म। पंजाब में ग्रामीण शिक्षा को सशक्त बनाना।",
+        },
+        pa: {
+            logo_text: "ਨਭਾ ਡਿਜੀਟਲ ਲਰਨਿੰਗ",
+            nav_home: "ਘਰ",
+            nav_roles: "ਭੂਮਿਕਾਵਾਂ",
+            nav_features: "ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ",
+            nav_impact: "ਪ੍ਰਭਾਵ",
+            app_name_part2: "ਡਿਜੀਟਲ ਸਿੱਖਿਆ",
+            hero_subtitle_1: "ਹਰ ਬੱਚੇ ਲਈ ਪ੍ਰੀਮੀਅਮ ਡਿਜੀਟਲ ਸਿੱਖਿਆ,",
+            hero_subtitle_2: "ਕਿਸੇ ਵੀ ਸਮੇਂ, ਕਿਤੇ ਵੀ",
+            btn_start: "🚀 ਸਿੱਖਣਾ ਸ਼ੁਰੂ ਕਰੋ",
+            btn_learn_more: "📖 ਹੋਰ ਜਾਣੋ",
+            hero_visual_title: "ਮਿਲ ਕੇ ਸਿੱਖੋ",
+            hero_visual_desc: "ਪੇਂਡੂ ਵਿਦਿਆਰਥੀ ਜੁੜੇ ਹੋਏ",
+            roles_heading_highlight: "ਭੂਮਿਕਾ",
+            roles_subheading: "ਆਪਣੀ ਸਿੱਖਣ ਯਾਤਰਾ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਆਪਣਾ ਰਸਤਾ ਚੁਣੋ",
+            role_student_title: "ਵਿਦਿਆਰਥੀ",
+            role_student_desc: "ਪੇਂਡੂ ਸਿਖਿਆਰਥੀਆਂ ਲਈ ਤਿਆਰ ਕੀਤੇ ਗਏ ਇੰਟਰਐਕਟਿਵ ਪਾਠਾਂ, ਵੀਡੀਓ ਅਤੇ ਅਭਿਆਸਾਂ ਤੱਕ ਪਹੁੰਚ ਕਰੋ",
+            role_student_btn: "ਸਿੱਖਣਾ ਸ਼ੁਰੂ ਕਰੋ",
+            role_teacher_title: "ਅਧਿਆਪਕ",
+            role_teacher_desc: "ਕਲਾਸਾਂ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ, ਵਿਦਿਆਰਥੀ ਦੀ ਪ੍ਰਗਤੀ ਨੂੰ ਟਰੈਕ ਕਰੋ ਅਤੇ ਵਿਅਕਤੀਗਤ ਅਸਾਈਨਮੈਂਟ ਬਣਾਓ",
+            role_teacher_btn: "ਅਧਿਆਪਕ ਡੈਸ਼ਬੋਰਡ",
+            role_parent_title: "ਮਾਪੇ/ਪ੍ਰਸ਼ਾਸਕ",
+            role_parent_desc: "ਵਿਦਿਆਰਥੀ ਦੀ ਪ੍ਰਗਤੀ ਦੀ ਨਿਗਰਾਨੀ ਕਰੋ ਅਤੇ ਵਿਸਤ੍ਰਿਤ ਪ੍ਰਦਰਸ਼ਨ ਰਿਪੋਰਟਾਂ ਤੱਕ ਪਹੁੰਚ ਕਰੋ",
+            role_parent_btn: "ਰਿਪੋਰਟ ਵੇਖੋ",
+            features_heading_highlight: "ਨਭਾ ਡਿਜੀਟਲ ਲਰਨਿੰਗ?",
+            features_subheading: "ਖਾਸ ਤੌਰ 'ਤੇ ਪੇਂਡੂ ਸਕੂਲਾਂ ਲਈ ਤਿਆਰ ਕੀਤੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਜੋ ਅਸਲ ਦੁਨੀਆਂ ਦੀਆਂ ਸਥਿਤੀਆਂ ਵਿੱਚ ਕੰਮ ਕਰਦੀਆਂ ਹਨ",
+            role_authority_title: "ਅਧਿਕਾਰੀ",
+            role_authority_desc: "ਸਕੂਲ ਦੀ ਪ੍ਰਗਤੀ ਦੀ ਨਿਗਰਾਨੀ ਕਰੋ ਅਤੇ ਵਿਸਤ੍ਰਿਤ ਪ੍ਰਦਰਸ਼ਨ ਰਿਪੋਰਟਾਂ ਤੱਕ ਪਹੁੰਚ ਕਰੋ",
+            role_authority_btn: "ਅਧਿਕਾਰੀ ਡੈਸ਼ਬੋਰਡ",
+            feature_1_title: "ਆਫਲਾਈਨ ਕੰਮ ਕਰਦਾ ਹੈ",
+            feature_1_desc: "ਇੰਟਰਨੈਟ ਕਨੈਕਟੀਵਿਟੀ ਤੋਂ ਬਿਨਾਂ ਪਾਠਾਂ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰੋ ਅਤੇ ਅਧਿਐਨ ਕਰੋ",
+            feature_2_title: "ਸਥਾਨਕ ਭਾਸ਼ਾਵਾਂ",
+            feature_2_desc: "ਸਮੱਗਰੀ ਪੰਜਾਬੀ, ਹਿੰਦੀ ਅਤੇ ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਉਪਲਬਧ ਹੈ",
+            feature_3_title: "ਇੰਟਰਐਕਟਿਵ ਪਾਠ",
+            feature_3_desc: "ਕਵਿਜ਼ ਅਤੇ ਗਤੀਵਿਧੀਆਂ ਦੇ ਨਾਲ ਗੇਮੀਫਾਈਡ ਸਿਖਲਾਈ",
+            feature_4_title: "ਪ੍ਰਗਤੀ ਟਰੈਕ ਕਰੋ",
+            feature_4_desc: "ਵਿਸਤ੍ਰਿਤ ਵਿਸ਼ਲੇਸ਼ਣ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਰਿਪੋਰਟਾਂ",
+            impact_heading: "ਸਿੱਖਿਆ ਦੇ ਪਾੜੇ ਨੂੰ ਪੂਰਨਾ",
+            impact_subheading: "ਹਰ ਬੱਚੇ ਨੂੰ ਗੁਣਵੱਤਾ ਵਾਲੀ ਸਿੱਖਿਆ ਦਾ ਹੱਕ ਹੈ, ਭਾਵੇਂ ਉਨ੍ਹਾਂ ਦਾ ਸਥਾਨ ਕੁਝ ਵੀ ਹੋਵੇ। ਸਾਡਾ ਪਲੇਟਫਾਰਮ ਇਹ ਯਕੀਨੀ ਬਣਾਉਂਦਾ ਹੈ ਕਿ ਨਭਾ ਦੇ ਪੇਂਡੂ ਵਿਦਿਆਰਥੀਆਂ ਕੋਲ ਉਨ੍ਹਾਂ ਦੇ ਸ਼ਹਿਰੀ ਹਮਰੁਤਬਿਆਂ ਵਾਂਗ ਸਿੱਖਣ ਦੇ ਬਰਾਬਰ ਮੌਕੇ ਹੋਣ।",
+            stat_1_value: "500+",
+            stat_1_label: "ਵਿਦਿਆਰਥੀ ਦਾਖਲ",
+            stat_2_value: "50+",
+            stat_2_label: "ਪੇਂਡੂ ਸਕੂਲ",
+            stat_3_value: "98%",
+            stat_3_label: "ਪੂਰਤੀ ਦਰ",
+            equality_rural: "ਪੇਂਡੂ ਸਕੂਲ",
+            equality_urban: "ਸ਼ਹਿਰੀ ਸਕੂਲ",
+            equality_message: "ਸਾਰਿਆਂ ਲਈ ਬਰਾਬਰ ਮੌਕੇ",
+            footer_logo_text: "ਨਭਾ ਡਿਜੀਟਲ ਲਰਨਿੰਗ",
+            footer_support_text: "ਪੰਜਾਬ ਸਿੱਖਿਆ ਵਿਭਾਗ ਦੁਆਰਾ ਸਮਰਥਿਤ",
+            footer_contact: "📧 ਸੰਪਰਕ ਕਰੋ",
+            footer_feedback: "💬 ਫੀਡਬੈਕ",
+            footer_support: "📞 ਸਹਾਇਤਾ",
+            footer_copyright: "© 2024 ਨਭਾ ਡਿਜੀਟਲ ਲਰਨਿੰਗ ਪਲੇਟਫਾਰਮ। ਪੰਜਾਬ ਵਿੱਚ ਪੇਂਡੂ ਸਿੱਖਿਆ ਨੂੰ ਸ਼ਕਤੀ ਪ੍ਰਦਾਨ ਕਰਨਾ।",
+        }
+    };
+
+    
+    // --- Core Translation Function ---
+    function translateContent(langCode) {
+        const translations = localization[langCode];
+        if (!translations) return;
+
+        currentLang = langCode;
+        localStorage.setItem('userLang', langCode);
+        
+        // Update current language display
+        document.getElementById('current-lang-display').textContent = langCode.toUpperCase();
+        
+        // Iterate over all elements with data-lang attribute
+        document.querySelectorAll('[data-lang]').forEach(element => {
+            const key = element.getAttribute('data-lang');
+            
+            // Handle dynamic text content
+            if (translations[key]) {
+                // Check if we need to preserve HTML structure (like emojis/icons)
+                if (key === 'btn_start' || key === 'btn_learn_more' || key === 'role_student_btn' || key === 'role_teacher_btn' || key === 'role_parent_btn' || key === 'footer_contact' || key === 'footer_feedback' || key === 'footer_support') {
+                    element.innerHTML = translations[key];
+                } else {
+                    element.textContent = translations[key];
+                }
+            }
+        });
+
+        // Special handling for gradient text elements that might need innerHTML
+        document.querySelectorAll('.gradient-text').forEach(element => {
+            const key = element.parentElement.querySelector('[data-lang]')?.getAttribute('data-lang');
+            if (key && localization[langCode][key]) {
+                // This is a fallback/complex case, often better handled by restructuring the HTML, 
+                // but for demonstration, we will let the primary text node handle it unless it's a known issue.
+            }
+        });
+
+    }
+   // Language Dropdown Toggle Functionality
+document.getElementById('lang-switcher-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const dropdown = document.getElementById('lang-dropdown');
+    const arrow = document.getElementById('dropdown-arrow');
+    
+    dropdown.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180');
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('lang-dropdown');
+    const button = document.getElementById('lang-switcher-btn');
+    
+    if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+        dropdown.classList.add('hidden');
+        document.getElementById('dropdown-arrow').classList.remove('rotate-180');
+    }
+});
+
+// Close dropdown after selecting a language
+document.querySelectorAll('#lang-dropdown .lang-option').forEach(button => {
+    button.addEventListener('click', function() {
+        document.getElementById('lang-dropdown').classList.add('hidden');
+        document.getElementById('dropdown-arrow').classList.remove('rotate-180');
+    });
+});
+    // --- Initialization and Event Listeners ---
+    function initializeLang() {
+        // 1. Check localStorage for saved preference
+        const savedLang = localStorage.getItem('userLang');
+        if (savedLang && localization[savedLang]) {
+            translateContent(savedLang);
+        } else {
+            // Fallback to system language or default to English
+            const browserLang = navigator.language.substring(0, 2);
+            if (localization[browserLang]) {
+                translateContent(browserLang);
+            } else {
+                translateContent('en'); // Default
+            }
+        }
+    }
+
+    // Attach event listeners to language option buttons
+    document.querySelectorAll('.lang-option').forEach(button => {
+        button.addEventListener('click', function() {
+            const langCode = this.getAttribute('data-lang-code');
+            translateContent(langCode);
+            // Close mobile menu if applicable
+            document.getElementById('mobile-menu').classList.add('hidden');
+        });
+    });
+  
+
+
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+    
+    // Hide the dropdown menu when clicking outside (for desktop hover implementation)
+    const langDropdown = document.getElementById('lang-dropdown');
+    document.querySelector('.group').addEventListener('mouseleave', () => {
+        // Desktop dropdown visibility is handled by CSS group-hover. 
+        // We only need JS for the mobile state or more complex interaction.
+    });
+
+    // --- Standard Functionality (Scroll Reveal, etc.) ---
+    function revealElements() {
+      const reveals = document.querySelectorAll('.reveal');
+      
+      reveals.forEach((element) => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < windowHeight - elementVisible) {
+          element.classList.add('active');
+        }
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          // Close mobile menu when navigation link is clicked
+          const mobileMenu = document.getElementById('mobile-menu');
+          if (!mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.add('hidden');
+          }
+          
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        const button = e.target.tagName === 'BUTTON' ? e.target : e.target.closest('button');
+        
+        // Prevent ripple on language option buttons (as they trigger translation logic)
+        if (button.classList.contains('lang-option')) return;
+
+        const ripple = document.createElement('span');
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
+          background: rgba(255,255,255,0.4);
+          border-radius: 50%;
+          transform: scale(0);
+          animation: ripple 0.6s ease-out;
+          pointer-events: none;
+        `;
+        
+        button.style.position = 'relative';
+        button.style.overflow = 'hidden';
+        button.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+      }
+    });
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    window.addEventListener('scroll', revealElements);
+    window.addEventListener('load', () => {
+        initializeLang();
+        revealElements();
+    });
+
+
+    // Navigation functions (kept for functionality)
+    function regirectToRegister() {
+      window.location.href = "/register";
+    }
+
+    function regirectToLogin() {
+      window.location.href = "/login";
+    }
+
+    function regirectToLoginT() {
+      window.location.href = "/loginT";
+    }
+    function redirectToAuthorityLogin() {
+  window.location.href = "/loginAuthority";
+}
+
+function redirectToParentLogin() {
+  window.location.href = "/parent";
+}
+  </script>
+</body>
+</html>
